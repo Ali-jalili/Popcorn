@@ -21,6 +21,6 @@ export default function NavBar({ children }) {
 }
 
 NavBar.propTypes = {
-    children: PropTypes.string,
+    children: PropTypes.object.isRequired,
 
 };

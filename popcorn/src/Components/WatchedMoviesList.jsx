@@ -14,6 +14,6 @@ export default function WatchedMoviesList({ watched }) {
 
 
 WatchedMoviesList.propTypes = {
-    watched: PropTypes.string,
+    watched: PropTypes.array.isRequired,
 
 };

@@ -35,6 +35,6 @@ export default function WatchedSummary({ watched }) {
     );
 }
 WatchedSummary.propTypes = {
-    watched: PropTypes.string,
+    watched: PropTypes.array.isRequired,
 
 };

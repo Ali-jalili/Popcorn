@@ -8,6 +8,6 @@ export default function NumResults({ movies }) {
 }
 
 NumResults.propTypes = {
-    movies: PropTypes.string,
+    movies: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
 
 };

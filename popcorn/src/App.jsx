@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './App.css'
 import NavBar from './Components/NavBar'
 import NumResults from './Components/NumResults'
@@ -55,23 +55,25 @@ import WatchedSummary from "./Components/WatchedSummary";
 //   },
 // ];
 
-// const KEY = "77ecf1a8";
+// const KEY = "5636192e";
 
 
+/**
+ * The main component of the application.
+ * @returns The JSX code for rendering the application.
+ */
 export default function App() {
   const [movies, setMovis] = useState([]);
   const [watched] = useState([]);
 
+  useEffect(() => {
+    fetch(`https://api.tvmaze.com/shows/82/episodes`)
+      .then(res => res.json())
+      .then(data => setMovis(data))
+  }, [])
 
 
-  /**
-   * Fetches data from the specified URL and sets the retrieved data to the "Movis" state.
-   * @param {string} url - The URL to fetch the data from.
-   * @returns None
-   */
-  fetch(`https://api.apify.com/v2/datasets/9uUoV55WrsBBh2aNa/items?clean=true&format=json`)
-    .then(res => res.json())
-    .then(data => setMovis(data.Search))
+
 
 
   return (

@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 export default function WatchedMovie({ movie }) {
     return (
         <li>
-            <img src={movie.Poster} alt={`${movie.Title} poster`} />
+            <img src={movie.image.medium} alt={`${movie.name} poster`} />
             <h3>{movie.Title}</h3>
             <div>
                 <p>
@@ -28,6 +28,6 @@ export default function WatchedMovie({ movie }) {
 
 
 WatchedMovie.propTypes = {
-    movie: PropTypes.string,
+    movie: PropTypes.string.isRequired,
 
 };

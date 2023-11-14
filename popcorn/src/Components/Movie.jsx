@@ -4,12 +4,12 @@ import PropTypes from "prop-types";
 export default function Movie({ movie }) {
     return (
         <li>
-            <img src={movie.Poster} alt={`${movie.Title} poster`} />
-            <h3>{movie.Title}</h3>
+            <img src={movie.image.original} alt={`${movie.name} poster`} />
+            <h3>{movie.name}</h3>
             <div>
                 <p>
                     <span>🗓</span>
-                    <span>{movie.Year}</span>
+                    <span>{movie.airdate}</span>
                 </p>
             </div>
         </li>
@@ -18,6 +18,6 @@ export default function Movie({ movie }) {
 
 
 Movie.propTypes = {
-    movie: PropTypes.string,
+    movie: PropTypes.object.isRequired,
 
 };
