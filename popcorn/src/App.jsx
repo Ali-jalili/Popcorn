@@ -7,73 +7,50 @@ import Box from "./Components/Box";
 import MovieList from "./Components/MovieList";
 import WatchedMoviesList from "./Components/WatchedMoviesList";
 import WatchedSummary from "./Components/WatchedSummary";
-
-// const tempMovieData = [
-//   {
-//     imdbID: "tt1375666",
-//     Title: "Inception",
-//     Year: "2010",
-//     Poster:
-//       "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
-//   },
-//   {
-//     imdbID: "tt0133093",
-//     Title: "The Matrix",
-//     Year: "1999",
-//     Poster:
-//       "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
-//   },
-//   {
-//     imdbID: "tt6751668",
-//     Title: "Parasite",
-//     Year: "2019",
-//     Poster:
-//       "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg",
-//   },
-// ];
-
-// const tempWatchedData = [
-//   {
-//     imdbID: "tt1375666",
-//     Title: "Inception",
-//     Year: "2010",
-//     Poster:
-//       "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
-//     runtime: 148,
-//     imdbRating: 8.8,
-//     userRating: 10,
-//   },
-//   {
-//     imdbID: "tt0088763",
-//     Title: "Back to the Future",
-//     Year: "1985",
-//     Poster:
-//       "https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
-//     runtime: 116,
-//     imdbRating: 8.5,
-//     userRating: 9,
-//   },
-// ];
-
-// const KEY = "5636192e";
-
-
+import Loader from "./Components/Loader";
+import Error from "./Components/Error";
 /**
  * The main component of the application.
  * @returns The JSX code for rendering the application.
  */
+
 export default function App() {
+
   const [movies, setMovis] = useState([]);
   const [watched] = useState([]);
+  const [isloading, setloading] = useState(false);
+  const [error, setError] = useState("")
 
   useEffect(() => {
-    fetch(`https://api.tvmaze.com/shows/82/episodes`)
-      .then(res => res.json())
-      .then(data => setMovis(data))
+
+
+    async function fetchMovis() {
+
+      try {
+        setloading(true)
+        const res = await fetch(`https://api.tvmaze.com/shows/82/episodes`);
+
+        if (!res.ok) throw new Error("Error");
+
+        const data = await res.json()
+        setMovis(data)
+        console.log(data);
+
+      }
+      catch (err) {
+        console.log(err.message);
+        setError(err.message)
+      }
+      finally {
+        setloading(false)
+
+      }
+
+    }
+
+    fetchMovis()
+
   }, [])
-
-
-
 
 
   return (
@@ -84,14 +61,23 @@ export default function App() {
       </NavBar>
 
       <Main>
+
         <Box>
-          <MovieList movies={movies} />
+          {/* {isloading ? <Loader /> : <MovieList movies={movies} />} */}
+          {isloading && <Loader />}
+          {!isloading && !error && <MovieList movies={movies} />}
+          {error && <Error message={error} />}
+
         </Box>
 
         <Box>
+
           <WatchedSummary watched={watched} />
+
           <WatchedMoviesList watched={watched} />
+
         </Box>
+
       </Main>
     </>
   );
